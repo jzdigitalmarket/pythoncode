@@ -18,23 +18,49 @@
             --note-border: #fbc02d;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); padding: 20px; color: var(--text-main); line-height: 1.6; }
-        .container { max-width: 900px; margin: auto; background: var(--bg-card); padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; /* Removi o padding do body para não bugar o canvas */
+            color: var(--text-main); 
+            line-height: 1.6; 
+            overflow-x: hidden;
+        }
+
+        /* AJUSTE NO CANVAS */
+        #scifi-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            z-index: -1;
+            background: radial-gradient(circle at center, #102030 0%, #050910 100%);
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 40px auto; /* Adicionei margem em cima e embaixo */
+            background: rgba(255, 255, 255, 0.92); /* Mais transparente */
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px); /* Efeito de vidro mais forte */
+            border: 1px solid rgba(255,255,255,0.3);
+        }
         
         h1 { text-align: center; color: var(--primary-color); margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9em; }
+        p.subtitle { text-align: center; color: #444; margin-bottom: 30px; font-size: 0.9em; font-weight: bold; }
         
-        /* Menu de Botões */
-        .menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+        .menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
         .menu button { 
-            background: #f8f9fa; color: var(--primary-color); border: 2px solid var(--primary-color); 
+            background: white; color: var(--primary-color); border: 2px solid var(--primary-color); 
             padding: 8px 14px; border-radius: 20px; cursor: pointer; 
             font-weight: bold; transition: 0.3s; font-size: 0.85em;
         }
         .menu button:hover { background: var(--primary-color); color: white; }
         .menu button.active-btn { background: var(--secondary-color); border-color: var(--secondary-color); color: #333; }
 
-        /* Seções de Código */
         .code-section { display: none; }
         .code-section.active { display: block; animation: fadeIn 0.4s ease-in; }
         
@@ -50,344 +76,152 @@
         }
         .copy-btn:hover { background: #4caf50; border-color: #4caf50; }
 
-        /* Notas de Rodapé */
         .footer-note {
             background-color: var(--note-bg); border-left: 4px solid var(--note-border);
             padding: 12px 15px; margin-top: 15px; border-radius: 4px; font-size: 0.9em; color: #444;
         }
-        .footer-note code { background: rgba(0,0,0,0.06); padding: 1px 4px; border-radius: 3px; font-family: monospace; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 600px) {
-            .container { padding: 15px; }
-            .menu button { width: 48%; }
+            .container { margin: 10px; padding: 15px; }
+            .menu button { width: 45%; }
         }
-        /* Fundo Animado Sci-Fi */
-#scifi-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Coloca atrás de tudo */
-    background: radial-gradient(circle at center, #102030 0%, #050910 100%); /* Gradiente espacial */
-}
-
-/* Ajuste do container para transparência e contraste */
-.container {
-    background: rgba(255, 255, 255, 0.95); /* Leve transparência para ver o fundo */
-    backdrop-filter: blur(5px); /* Efeito de vidro fosco */
-    border: 1px solid rgba(55, 118, 171, 0.3); /* Borda sutil azul */
-}
     </style>
 </head>
 <body>
     <canvas id="scifi-bg"></canvas>
 
-<div class="container">
-    <h1>Python Study Hub 🐍</h1>
-    <p class="subtitle">Meu repositório central de exemplos e sintaxe Python</p>
+    <div class="container">
+        <h1>Python Study Hub 🐍</h1>
+        <p class="subtitle">Meu repositório central de exemplos e sintaxe Python</p>
 
-    <div class="menu" id="mainMenu">
-        <button onclick="showCode('hello', this)">👋 Olá Mundo</button>
-        <button onclick="showCode('calc', this)">⚙️ Funções</button>
-        <button onclick="showCode('lista', this)">📂 Listas</button>
-        <button onclick="showCode('loops', this)">🔄 Loops</button>
-        <button onclick="showCode('erros', this)">⚠️ Erros</button>
-        <button onclick="showCode('dict', this)">🔑 Dicionários</button>
-        <button onclick="showCode('files', this)">📄 Arquivos</button>
-        <button onclick="showCode('pass', this)">🔐 Senhas</button>
-        <button onclick="showCode('date', this)">📅 Datas</button>
-        <button onclick="showCode('cond', this)">⚖️ Condicionais</button>
-    </div>
-
-    <div id="content">
-
-        <div id="hello" class="code-section">
-            <div class="desc">Entrada de dados e f-strings.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">nome = input("Qual o seu nome? ")
-print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O <code>f</code> antes das aspas indica uma <em>f-string</em>, permitindo inserir variáveis entre chaves <code>{}</code>.
-            </div>
+        <div class="menu" id="mainMenu">
+            <button onclick="showCode('hello', this)">👋 Olá Mundo</button>
+            <button onclick="showCode('calc', this)">⚙️ Funções</button>
+            <button onclick="showCode('lista', this)">📂 Listas</button>
+            <button onclick="showCode('loops', this)">🔄 Loops</button>
+            <button onclick="showCode('erros', this)">⚠️ Erros</button>
+            <button onclick="showCode('dict', this)">🔑 Dicionários</button>
+            <button onclick="showCode('files', this)">📄 Arquivos</button>
+            <button onclick="showCode('pass', this)">🔐 Senhas</button>
+            <button onclick="showCode('date', this)">📅 Datas</button>
+            <button onclick="showCode('cond', this)">⚖️ Condicionais</button>
         </div>
 
-        <div id="calc" class="code-section">
-            <div class="desc">Definição de funções e retorno.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">def calcular_bonus(salario):
+        <div id="content">
+            <div id="hello" class="code-section">
+                <div class="desc">Entrada de dados e f-strings.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">nome = input("Qual o seu nome? ")
+print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
+                </div>
+                <div class="footer-note"><strong>💡 Dica:</strong> O <code>f</code> indica uma f-string.</div>
+            </div>
+            
+            <div id="calc" class="code-section">
+                <div class="desc">Definição de funções e retorno.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">def calcular_bonus(salario):
     return salario * 0.10
 
 meu_salario = 3000
 bonus = calcular_bonus(meu_salario)
 print(f"Seu bônus é de: R$ {bonus}")</code></pre>
+                </div>
             </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> <code>def</code> define um bloco reutilizável. O <code>return</code> devolve o valor para onde a função foi chamada.
-            </div>
-        </div>
+            </div> </div> <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
-        <div id="lista" class="code-section">
-            <div class="desc">Manipulação de arrays e iteração.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">techs = ["Python", "HTML", "JavaScript"]
-techs.append("SQL") # Adiciona ao fim
+    <script>
+        const canvas = document.getElementById('scifi-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
 
-for item in techs:
-    print(f"Estudar: {item}")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> Listas são mutáveis. Use <code>.append()</code> para adicionar e <code>for</code> para percorrer cada item.
-            </div>
-        </div>
+        const particleCount = 70;
+        const connectionDistance = 140;
+        const particleColor = 'rgba(55, 118, 171, 0.8)';
 
-        <div id="loops" class="code-section">
-            <div class="desc">Controle de fluxo repetitivo.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python"># For com range
-for i in range(3):
-    print(f"Execução {i+1}")
-
-# While condicional
-contador = 0
-while contador < 2:
-    print("Processando...")
-    contador += 1</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O <code>range(n)</code> vai de 0 até n-1. No <code>while</code>, lembre-se de atualizar a condição para evitar loops infinitos.
-            </div>
-        </div>
-
-        <div id="erros" class="code-section">
-            <div class="desc">Tratamento de exceções com Try/Except.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">try:
-    num = int(input("Digite um divisor: "))
-    print(f"10 / {num} = {10/num}")
-except ZeroDivisionError:
-    print("Erro: Não divida por zero!")
-except ValueError:
-    print("Erro: Digite apenas números inteiros!")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O bloco <code>try</code> evita que o programa pare bruscamente ao encontrar um erro previsto.
-            </div>
-        </div>
-
-        <div id="dict" class="code-section">
-            <div class="desc">Objetos do tipo Chave e Valor.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">usuario = {
-    "login": "dev_jose",
-    "nivel": "Pleno",
-    "ativo": True
-}
-print(f"Usuário: {usuario['login']} | Status: {usuario['ativo']}")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> Dicionários são mapeamentos. No exemplo, "login" é a chave e "dev_jose" é o valor associado.
-            </div>
-        </div>
-
-        <div id="files" class="code-section">
-            <div class="desc">Escrita em arquivos externos.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python"># 'w' significa write (sobrescrever)
-with open("meu_arquivo.txt", "w", encoding="utf-8") as f:
-    f.write("Anotação importante de Python.")
-
-print("Arquivo salvo!")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O gerenciador <code>with</code> fecha o arquivo automaticamente, garantindo que os dados não sejam corrompidos.
-            </div>
-        </div>
-
-        <div id="pass" class="code-section">
-            <div class="desc">Sorteio aleatório de caracteres.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">import random
-import string
-
-pool = string.ascii_letters + string.digits
-senha = "".join(random.choice(pool) for i in range(8))
-print(f"Senha sugerida: {senha}")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> Usamos o módulo <code>random</code> para aleatoriedade e <code>string</code> para obter letras e dígitos rapidamente.
-            </div>
-        </div>
-
-        <div id="date" class="code-section">
-            <div class="desc">Manipulação de tempo e formatação.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">from datetime import datetime
-
-agora = datetime.now()
-data_pt = agora.strftime("%d/%m/%Y %H:%M")
-print(f"Data formatada: {data_pt}")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O método <code>strftime</code> transforma um objeto de data em texto formatado conforme sua preferência.
-            </div>
-        </div>
-
-        <div id="cond" class="code-section">
-            <div class="desc">Decisões com If, Elif e Else.</div>
-            <div class="code-container">
-                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-                <pre><code class="language-python">idade = 18
-if idade >= 18:
-    print("Maior de idade")
-elif idade > 12:
-    print("Adolescente")
-else:
-    print("Criança")</code></pre>
-            </div>
-            <div class="footer-note">
-                <strong>💡 Dica:</strong> O <code>elif</code> é testado apenas se o <code>if</code> anterior for falso, otimizando o processamento.
-            </div>
-        </div>
-
-    </div> </div> <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-
-<script>
-
-    // --- ANIMAÇÃO DE FUNDO SCI-FI (Rede Neural) ---
-const canvas = document.getElementById('scifi-bg');
-const ctx = canvas.getContext('2d');
-
-let width, height, particles;
-
-// Configuração das Partículas
-const particleCount = 60; // Número de pontos
-const connectionDistance = 120; // Distância para conectar
-const particleColor = 'rgba(55, 118, 171, 0.6)'; // Azul Python suave
-const lineColor = 'rgba(55, 118, 171, 0.2)'; // Linhas bem sutis
-
-// Classe Partícula
-class Particle {
-    constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.5; // Velocidade X
-        this.vy = (Math.random() - 0.5) * 0.5; // Velocidade Y
-        this.size = Math.random() * 2 + 1; // Tamanho
-    }
-
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Rebater nas bordas
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.random() * Math.PI * 2);
-        ctx.fillStyle = particleColor;
-        ctx.fill();
-    }
-}
-
-// Inicializar/Redimensionar
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    particles = [];
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-}
-
-// Desenhar Conexões
-function drawLines() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < connectionDistance) {
+        class Particle {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
                 ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                // Opacidade baseada na distância (mais perto = mais forte)
-                const opacity = 1 - (distance / connectionDistance);
-                ctx.strokeStyle = `rgba(55, 118, 171, ${opacity * 0.2})`; 
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.fill();
             }
         }
-    }
-}
 
-// Loop de Animação
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-    drawLines();
-    requestAnimationFrame(animate);
-}
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+        }
 
-// Eventos
-window.addEventListener('resize', resize);
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(55, 118, 171, ${1 - dist/connectionDistance})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
 
-// Iniciar
-resize();
-animate();
-// --- FIM DA ANIMAÇÃO ---
-    
-    // Gerenciador de Exibição
-    function showCode(id, btn) {
-        // Esconde todas as seções
-        document.querySelectorAll('.code-section').forEach(el => el.classList.remove('active'));
-        // Desativa todos os botões
-        document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active-btn'));
-        
-        // Ativa a seção e o botão clicado
-        document.getElementById(id).classList.add('active');
-        btn.classList.add('active-btn');
-    }
+        window.addEventListener('resize', resize);
 
-    // Função de Cópia
-    function copyText(btn) {
-        const code = btn.parentElement.querySelector('code').innerText;
-        navigator.clipboard.writeText(code).then(() => {
-            const original = btn.innerText;
-            btn.innerText = "Copiado! ✅";
-            btn.style.background = "#4caf50";
-            setTimeout(() => {
-                btn.innerText = original;
-                btn.style.background = "";
-            }, 1500);
-        });
-    }
+        // FUNÇÃO PARA TROCAR CÓDIGO
+        function showCode(id, btn) {
+            document.querySelectorAll('.code-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active-btn'));
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
+            btn.classList.add('active-btn');
+        }
 
-    // Iniciar com o primeiro exemplo ativo
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.menu button').click();
-    });
-</script>
+        function copyText(btn) {
+            const code = btn.parentElement.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.innerText;
+                btn.innerText = "Copiado! ✅";
+                setTimeout(() => btn.innerText = original, 1500);
+            });
+        }
 
+        // INICIALIZAÇÃO CORRETA
+        window.onload = () => {
+            resize();
+            animate();
+            document.querySelector('.menu button').click();
+        };
+    </script>
 </body>
 </html>
