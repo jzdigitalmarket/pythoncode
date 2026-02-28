@@ -65,21 +65,24 @@
         <button onclick="showCode('dict', this)">Dicionários</button>
     </div>
 
-    <div id="content">
-        <div id="hello" class="code-section">
-            <div class="desc">Básico de entrada e saída de dados.</div>
-            <pre><code class="language-python"># Formatação de strings (f-strings)
+    <div id="hello" class="code-section">
+    <div class="desc">Básico de entrada e saída de dados.</div>
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+        <pre><code class="language-python"># Formatação de strings (f-strings)
 nome = input("Qual o seu nome? ")
 print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
-        </div>
+    </div>
+    </div> 
 
-        <div id="calc" class="code-section">
-            <div class="desc">Definição de funções e retorno de valores.</div>
+    <div id="calc" class="code-section">
+    <div class="desc">Definição de funções e retorno de valores.</div>
+    <div class="code-container">    
             <pre><code class="language-python">def calcular_bonus(salario):
     return salario * 0.10
-
 meu_salario = 3000
 print(f"Seu bônus é de: R$ {calcular_bonus(meu_salario)}")</code></pre>
+    </div>
         </div>
 
         <div id="lista" class="code-section">
