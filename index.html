@@ -32,22 +32,22 @@
 
         .code-container { position: relative; }
 
-.copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-    z-index: 10;
-}
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 10;
+        }
 
-.copy-btn:hover { background: #4caf50; border-color: #4caf50; }
+        .copy-btn:hover { background: #4caf50; border-color: #4caf50; }
     </style>
 </head>
 <body>
@@ -65,41 +65,46 @@
         <button onclick="showCode('dict', this)">Dicionários</button>
     </div>
 
-    <div id="hello" class="code-section">
-    <div class="desc">Básico de entrada e saída de dados.</div>
-    <div class="code-container">
-        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-        <pre><code class="language-python"># Formatação de strings (f-strings)
+    <div id="content">
+        <div id="hello" class="code-section">
+            <div class="desc">Básico de entrada e saída de dados.</div>
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python"># Formatação de strings (f-strings)
 nome = input("Qual o seu nome? ")
 print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
-    </div>
-    </div> 
+            </div>
+        </div> 
 
-    <div id="calc" class="code-section">
-    <div class="desc">Definição de funções e retorno de valores.</div>
-    <div class="code-container">    
-            <pre><code class="language-python">def calcular_bonus(salario):
+        <div id="calc" class="code-section">
+            <div class="desc">Definição de funções e retorno de valores.</div>
+            <div class="code-container">    
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python">def calcular_bonus(salario):
     return salario * 0.10
+
 meu_salario = 3000
 print(f"Seu bônus é de: R$ {calcular_bonus(meu_salario)}")</code></pre>
-    </div>
+            </div>
         </div>
 
         <div id="lista" class="code-section">
             <div class="desc">Manipulação de arrays/listas.</div>
-             <div class="code-container"> 
-            <pre><code class="language-python">techs = ["Python", "HTML", "JavaScript"]
+            <div class="code-container"> 
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python">techs = ["Python", "HTML", "JavaScript"]
 techs.append("SQL")
 
 for item in techs:
     print(f"Estudar: {item}")</code></pre>
-        </div>
             </div>
+        </div>
 
         <div id="loops" class="code-section">
             <div class="desc">Controle de repetição.</div>
             <div class="code-container"> 
-            <pre><code class="language-python"># Loop com range
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python"># Loop com range
 for i in range(5):
     print(f"Linha {i+1}")
 
@@ -108,30 +113,32 @@ x = 0
 while x < 3:
     print("Ainda processando...")
     x += 1</code></pre>
-        </div>
             </div>
+        </div>
 
         <div id="erros" class="code-section">
             <div class="desc">Bloco Try/Except para evitar crash.</div>
             <div class="code-container"> 
-            <pre><code class="language-python">try:
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python">try:
     divisao = 10 / 0
 except ZeroDivisionError:
     print("Ops! Não pode dividir por zero.")</code></pre>
-        </div>
             </div>
+        </div>
 
         <div id="dict" class="code-section">
             <div class="desc">Trabalhando com objetos (Chave/Valor).</div>
             <div class="code-container"> 
-            <pre><code class="language-python">projeto = {
+                <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                <pre><code class="language-python">projeto = {
     "nome": "Meu Dashboard",
     "status": "Online",
     "tags": ["Vercel", "Python", "GitHub"]
 }
 print(projeto["nome"])</code></pre>
-        </div>
             </div>
+        </div>
     </div>
 </div>
 
@@ -139,38 +146,31 @@ print(projeto["nome"])</code></pre>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
 <script>
+    // Função para mostrar o código
     function showCode(id, btn) {
-        // Esconde todas as seções
         document.querySelectorAll('.code-section').forEach(el => el.classList.remove('active'));
-        // Remove a classe ativa de todos os botões
         document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active-btn'));
         
-        // Mostra a selecionada e marca o botão
         document.getElementById(id).classList.add('active');
         btn.classList.add('active-btn');
+    }
+
+    // FUNÇÃO DE COPIAR (Adicionada agora)
+    function copyText(btn) {
+        const code = btn.parentElement.querySelector('code').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = "Copiado! ✅";
+            btn.style.background = "#4caf50";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+            }, 2000);
+        });
     }
     
     // Inicia com o primeiro exemplo visível
     document.querySelector('.menu button').click();
-
-function copyText(btn) {
-    // Busca o código dentro do bloco 'pre' próximo ao botão
-    const code = btn.parentElement.querySelector('code').innerText;
-    
-    navigator.clipboard.writeText(code).then(() => {
-        const originalText = btn.innerText;
-        btn.innerText = "Copiado! ✅";
-        btn.style.background = "#4caf50";
-        
-        // Volta ao normal depois de 2 segundos
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = "";
-        }, 2000);
-    });
-}
-
-    
 </script>
 
 </body>
