@@ -11,8 +11,7 @@
         :root {
             --primary-color: #3776ab;
             --secondary-color: #ffd43b;
-            --bg-body: #eceff1;
-            --bg-card: #ffffff;
+            --bg-dark: #050910;
             --text-main: #263238;
             --note-bg: #fff9c4;
             --note-border: #fbc02d;
@@ -24,54 +23,56 @@
             color: var(--text-main); 
             line-height: 1.6; 
             overflow-x: hidden;
-            background: #050910; /* Cor de fundo de segurança */
+            background: var(--bg-dark);
         }
 
+        /* FUNDO ANIMADO */
         #scifi-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             display: block;
             z-index: -1;
             background: radial-gradient(circle at center, #102030 0%, #050910 100%);
         }
 
+        /* CONTAINER GLASSMORPHISM */
         .container { 
-            max-width: 900px; 
+            max-width: 950px; 
             margin: 40px auto;
             background: rgba(255, 255, 255, 0.92);
             padding: 30px; 
             border-radius: 15px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.3);
         }
         
-        h1 { text-align: center; color: var(--primary-color); margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary-color); margin-bottom: 5px; }
         p.subtitle { text-align: center; color: #444; margin-bottom: 30px; font-size: 0.9em; font-weight: bold; }
         
-        .menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; }
+        /* MENU */
+        .menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 25px; }
         .menu button { 
             background: white; color: var(--primary-color); border: 2px solid var(--primary-color); 
-            padding: 8px 14px; border-radius: 20px; cursor: pointer; 
+            padding: 10px 16px; border-radius: 25px; cursor: pointer; 
             font-weight: bold; transition: 0.3s; font-size: 0.85em;
         }
         .menu button:hover { background: var(--primary-color); color: white; transform: translateY(-2px); }
-        .menu button.active-btn { background: var(--secondary-color); border-color: var(--secondary-color); color: #333; box-shadow: 0 4px 10px rgba(255, 212, 59, 0.4); }
+        .menu button.active-btn { background: var(--secondary-color); border-color: var(--secondary-color); color: #333; box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
 
+        /* SEÇÕES DE CÓDIGO */
         .code-section { display: none; }
         .code-section.active { display: block; animation: fadeIn 0.4s ease-in; }
         
-        .desc { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 12px 15px; margin-bottom: 15px; border-radius: 4px; font-weight: 500; }
+        .desc { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 15px; margin-bottom: 15px; border-radius: 4px; font-weight: 500; }
 
-        .code-container { position: relative; margin-bottom: 15px; }
+        .code-container { position: relative; margin-bottom: 15px; border-radius: 8px; overflow: hidden; }
         .copy-btn {
             position: absolute; top: 12px; right: 12px;
-            background: rgba(255, 255, 255, 0.15); color: #fff;
+            background: rgba(255, 255, 255, 0.2); color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 4px 10px; border-radius: 5px; font-size: 11px;
+            padding: 5px 12px; border-radius: 6px; font-size: 11px;
             cursor: pointer; transition: 0.2s; z-index: 5;
         }
         .copy-btn:hover { background: #4caf50; border-color: #4caf50; }
@@ -81,11 +82,11 @@
             padding: 12px 15px; margin-top: 15px; border-radius: 4px; font-size: 0.9em; color: #444;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 600px) {
             .container { margin: 10px; padding: 15px; }
-            .menu button { width: 45%; }
+            .menu button { width: 46%; padding: 8px; }
         }
     </style>
 </head>
@@ -101,30 +102,26 @@
             <button onclick="showCode('calc', this)">⚙️ Funções</button>
             <button onclick="showCode('lista', this)">📂 Listas</button>
             <button onclick="showCode('loops', this)">🔄 Loops</button>
-            <button onclick="showCode('erros', this)">⚠️ Erros</button>
             <button onclick="showCode('dict', this)">🔑 Dicionários</button>
-            <button onclick="showCode('files', this)">📄 Arquivos</button>
-            <button onclick="showCode('pass', this)">🔐 Senhas</button>
-            <button onclick="showCode('date', this)">📅 Datas</button>
-            <button onclick="showCode('cond', this)">⚖️ Condicionais</button>
+            <button onclick="showCode('erros', this)">⚠️ Erros</button>
             <button onclick="showCode('poo', this)">🏗️ Objetos (POO)</button>
             <button onclick="showCode('pandas', this)">📊 Dados (Pandas)</button>
-            <button onclick="showCode('api', this)">🌐 APIs (FastAPI)</button> 
+            <button onclick="showCode('api', this)">🌐 APIs (FastAPI)</button>
         </div>
 
         <div id="content">
             <div id="hello" class="code-section">
-                <div class="desc">Entrada de dados e f-strings.</div>
+                <div class="desc">Entrada de dados e interpolação de strings (f-strings).</div>
                 <div class="code-container">
                     <button class="copy-btn" onclick="copyText(this)">Copiar</button>
                     <pre><code class="language-python">nome = input("Qual o seu nome? ")
 print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
                 </div>
-                <div class="footer-note"><strong>💡 Dica:</strong> O <code>f</code> indica uma f-string.</div>
+                <div class="footer-note"><strong>💡 Dica:</strong> As f-strings facilitam a leitura do código ao inserir variáveis diretamente no texto.</div>
             </div>
-            
+
             <div id="calc" class="code-section">
-                <div class="desc">Definição de funções e retorno.</div>
+                <div class="desc">Definição de funções reutilizáveis com parâmetros e retorno.</div>
                 <div class="code-container">
                     <button class="copy-btn" onclick="copyText(this)">Copiar</button>
                     <pre><code class="language-python">def calcular_bonus(salario):
@@ -136,70 +133,109 @@ print(f"Seu bônus é de: R$ {bonus}")</code></pre>
                 </div>
             </div>
 
+            <div id="lista" class="code-section">
+                <div class="desc">Armazenando e manipulando coleções de dados.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">frutas = ["Maçã", "Banana", "Cereja"]
+frutas.append("Laranja") # Adiciona ao final
+print(frutas[0]) # Acessa o primeiro item</code></pre>
+                </div>
+            </div>
+
+            <div id="loops" class="code-section">
+                <div class="desc">Repetições automáticas usando 'for' e 'while'.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python"># Loop For
+for i in range(5):
+    print(f"Contagem: {i}")
+
+# Loop While
+contador = 0
+while contador < 3:
+    print("Repetindo...")
+    contador += 1</code></pre>
+                </div>
+            </div>
+
+            <div id="dict" class="code-section">
+                <div class="desc">Estruturas de Chave e Valor para dados mapeados.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">usuario = {
+    "nome": "Guilherme",
+    "nivel": "Iniciante",
+    "ativo": True
+}
+print(usuario["nome"])</code></pre>
+                </div>
+            </div>
+
+            <div id="erros" class="code-section">
+                <div class="desc">Tratamento de exceções para evitar que o programa trave.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+except ValueError:
+    print("Erro: Digite apenas números inteiros!")
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")</code></pre>
+                </div>
+            </div>
+
             <div id="poo" class="code-section">
-    <div class="desc">Classes, Atributos e Métodos.</div>
-    <div class="code-container">
-        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-        <pre><code class="language-python">class Robo:
+                <div class="desc">Programação Orientada a Objetos: Classes e Métodos.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">class Robo:
     def __init__(self, nome):
         self.nome = nome
         self.bateria = 100
 
     def saudar(self):
-        print(f"Olá! Sou o {self.nome} e tenho {self.bateria}% de carga.")
+        print(f"Olá! Sou o {self.nome} e tenho {self.bateria}% de bateria.")
 
 meu_robo = Robo("Python-Bot")
 meu_robo.saudar()</code></pre>
-    </div>
-    <div class="footer-note">
-        <strong>💡 Dica:</strong> O <code>__init__</code> é o construtor, usado para inicializar as características do objeto quando ele é criado.
-    </div>
-</div>
+                </div>
+            </div>
+
             <div id="pandas" class="code-section">
-    <div class="desc">Criando e visualizando tabelas (DataFrames).</div>
-    <div class="code-container">
-        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-        <pre><code class="language-python">import pandas as pd
+                <div class="desc">Manipulação de dados com a biblioteca Pandas.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">import pandas as pd
 
-dados = {
-    'Nome': ['Ana', 'Bruno', 'Carla'],
-    'Idade': [23, 35, 29]
-}
-
+dados = {'Nome': ['Ana', 'Bruno'], 'Idade': [23, 35]}
 df = pd.DataFrame(dados)
-print(df.head()) # Mostra as primeiras linhas
-print(f"Média de idade: {df['Idade'].mean()}")</code></pre>
-    </div>
-    <div class="footer-note">
-        <strong>💡 Dica:</strong> O Pandas transforma dados brutos em tabelas poderosas para análise estatística e automação.
-    </div>
-</div>
+
+print(df.head())
+print(f"Média de Idade: {df['Idade'].mean()}")</code></pre>
+                </div>
+            </div>
+
             <div id="api" class="code-section">
-    <div class="desc">Criando um endpoint de API moderno.</div>
-    <div class="code-container">
-        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
-        <pre><code class="language-python">from fastapi import FastAPI
+                <div class="desc">Criação de APIs rápidas e modernas.</div>
+                <div class="code-container">
+                    <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+                    <pre><code class="language-python">from fastapi import FastAPI
 
 app = FastAPI()
 
 @app.get("/")
 def home():
-    return {"mensagem": "API Python rodando com sucesso!"}
-
-# Para rodar: uvicorn nome_do_arquivo:app --reload</code></pre>
-    </div>
-    <div class="footer-note">
-        <strong>💡 Dica:</strong> FastAPI é um dos frameworks mais rápidos do mundo para construir back-ends escaláveis.
-    </div>
-</div>
-            
+    return {"status": "Online", "msg": "API Python Ativa"}</code></pre>
+                </div>
             </div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        </div> </div> <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
     <script>
+        // --- ANIMAÇÃO DOS ÁTOMOS (CANVAS) ---
         const canvas = document.getElementById('scifi-bg');
         const ctx = canvas.getContext('2d');
         let width, height, atoms;
@@ -211,13 +247,13 @@ def home():
             constructor() {
                 this.x = Math.random() * window.innerWidth;
                 this.y = Math.random() * window.innerHeight;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
                 this.nucleusSize = 4;
                 this.orbits = [
-                    { rx: 25, ry: 10, angle: 0, speed: 0.05 },
-                    { rx: 25, ry: 10, angle: Math.PI / 3, speed: 0.03 },
-                    { rx: 25, ry: 10, angle: -Math.PI / 3, speed: 0.04 }
+                    { rx: 28, ry: 12, angle: 0, speed: 0.05 },
+                    { rx: 28, ry: 12, angle: Math.PI / 3, speed: 0.03 },
+                    { rx: 28, ry: 12, angle: -Math.PI / 3, speed: 0.04 }
                 ];
                 this.electronAngle = Math.random() * Math.PI * 2;
             }
@@ -230,7 +266,6 @@ def home():
             }
             
             draw() {
-                // Brilho para órbitas e elétrons
                 ctx.shadowBlur = 8;
                 ctx.shadowColor = '#3776ab';
 
@@ -249,21 +284,19 @@ def home():
                     const ey = orb.ry * Math.sin(this.electronAngle * (orb.speed * 15));
                     
                     ctx.beginPath();
-                    ctx.arc(ex, ey, 2, 0, Math.PI * 2);
+                    ctx.arc(ex, ey, 2.5, 0, Math.PI * 2);
                     ctx.fillStyle = '#87CEEB'; 
                     ctx.fill();
                     ctx.restore();
                 });
 
-                // Núcleo
-                const pulse = Math.sin(Date.now() * 0.005) * 2;
+                const pulse = Math.sin(Date.now() * 0.005) * 1.5;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.nucleusSize + pulse, 0, Math.PI * 2);
                 ctx.shadowColor = '#ffd43b';
                 ctx.fillStyle = '#ffd43b';
                 ctx.fill();
-                
-                ctx.shadowBlur = 0; // Reset
+                ctx.shadowBlur = 0;
             }
         }
 
@@ -276,10 +309,7 @@ def home():
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            atoms.forEach(atom => {
-                atom.update();
-                atom.draw();
-            });
+            atoms.forEach(atom => { atom.update(); atom.draw(); });
 
             for (let i = 0; i < atoms.length; i++) {
                 for (let j = i + 1; j < atoms.length; j++) {
@@ -299,14 +329,7 @@ def home():
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('resize', resize);
-        window.onload = () => { 
-            resize(); 
-            animate(); 
-            const firstBtn = document.querySelector('.menu button');
-            if(firstBtn) firstBtn.click(); 
-        };
-
+        // --- LÓGICA DA INTERFACE ---
         function showCode(id, btn) {
             document.querySelectorAll('.code-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active-btn'));
@@ -327,6 +350,13 @@ def home():
                 }, 1500);
             });
         }
+
+        window.addEventListener('resize', resize);
+        window.onload = () => { 
+            resize(); 
+            animate(); 
+            document.querySelector('.menu button').click(); // Ativa o primeiro botão
+        };
     </script>
 </body>
 </html>
