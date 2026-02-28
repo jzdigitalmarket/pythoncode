@@ -27,8 +27,10 @@
         <button onclick="showCode('calc')">Calculadora Simples</button>
         <button onclick="showCode('lista')">Manipular Listas</button>
         <button onclick="showCode('api')">Request Simples</button>
+        <button onclick="showCode('loops')">Repetições (Loops)</button>
+        <button onclick="showCode('erros')">Tratamento de Erros</button>
+        <button onclick="showCode('dict')">Dicionários (JSON-like)</button>
     </div>
-
     <hr>
 
     <div id="content">
@@ -68,6 +70,49 @@ response = requests.get('https://api.github.com/users/github')
 data = response.json()
 print(f"Nome da conta: {data['name']}")
         </pre>
+
+<div id="loops-desc" class="desc">Como repetir tarefas até que uma condição seja atendida.</div>
+<pre id="loops">
+# Contagem regressiva com while
+contador = 5
+while contador > 0:
+    print(f"Lançamento em {contador}...")
+    contador -= 1
+print("Fogo! 🚀")
+
+# Usando range no for
+for i in range(1, 4):
+    print(f"Tentativa número {i}")
+</pre>
+
+<div id="erros-desc" class="desc">Evitando que o programa pare de funcionar por erros do usuário.</div>
+<pre id="erros">
+try:
+    numero = int(input("Digite um número para dividir 100: "))
+    resultado = 100 / numero
+    print(f"Resultado: {resultado}")
+except ValueError:
+    print("Erro: Por favor, digite um número inteiro válido.")
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")
+</pre>
+
+<div id="dict-desc" class="desc">Armazenando dados em pares de Chave e Valor.</div>
+<pre id="dict">
+estudante = {
+    "nome": "Seu Nome",
+    "curso": "Python",
+    "progresso": 85
+}
+
+print(f"O aluno {estudante['nome']} está no curso de {estudante['curso']}.")
+
+# Adicionando nova chave
+estudante["status"] = "Ativo"
+print(estudante)
+</pre>
+
+        
     </div>
 </div>
 
