@@ -3,129 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Estudos de Python</title>
+    <title>Meu Guia Python Profissional</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4.f9; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #3776ab; }
-        .menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
-        button { background: #3776ab; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #ffd43b; color: #333; }
-        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; display: none; }
-        .active { display: block; }
-        .desc { font-style: italic; color: #666; margin-bottom: 10px; display: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eceff1; padding: 20px; color: #263238; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #3776ab; margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        
+        .menu { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
+        
+        button { 
+            background: #f8f9fa; color: #3776ab; border: 2px solid #3776ab; 
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; 
+            font-weight: bold; transition: 0.3s; 
+        }
+        button:hover { background: #3776ab; color: white; }
+        button.active-btn { background: #ffd43b; border-color: #ffd43b; color: #333; }
+
+        .code-section { display: none; }
+        .code-section.active { display: block; animation: fadeIn 0.5s; }
+        
+        .desc { background: #e3f2fd; border-left: 5px solid #2196f3; padding: 15px; margin-bottom: 10px; border-radius: 4px; font-style: italic; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Python Snippets 🐍</h1>
-    <p>Clique nos botões abaixo para ver os exemplos de código:</p>
+    <h1>Python Study Hub 🐍</h1>
+    <p class="subtitle">Exemplos práticos para consulta rápida no GitHub/Vercel</p>
 
     <div class="menu">
-        <button onclick="showCode('hello')">Olá Mundo</button>
-        <button onclick="showCode('calc')">Calculadora Simples</button>
-        <button onclick="showCode('lista')">Manipular Listas</button>
-        <button onclick="showCode('api')">Request Simples</button>
-        <button onclick="showCode('loops')">Repetições (Loops)</button>
-        <button onclick="showCode('erros')">Tratamento de Erros</button>
-        <button onclick="showCode('dict')">Dicionários (JSON-like)</button>
+        <button onclick="showCode('hello', this)">Olá Mundo</button>
+        <button onclick="showCode('calc', this)">Funções</button>
+        <button onclick="showCode('lista', this)">Listas</button>
+        <button onclick="showCode('loops', this)">Loops</button>
+        <button onclick="showCode('erros', this)">Erros</button>
+        <button onclick="showCode('dict', this)">Dicionários</button>
     </div>
-    <hr>
 
     <div id="content">
-        <div id="hello-desc" class="desc">O básico de tudo: imprimir texto e formatar strings.</div>
-        <pre id="hello">
-# Exemplo de Print e Input
+        <div id="hello" class="code-section">
+            <div class="desc">Básico de entrada e saída de dados.</div>
+            <pre><code class="language-python"># Formatação de strings (f-strings)
 nome = input("Qual o seu nome? ")
-print(f"Olá, {nome}! Bem-vindo ao mundo Python.")
-        </pre>
+print(f"Olá, {nome}! Você está estudando Python.")</code></pre>
+        </div>
 
-        <div id="calc-desc" class="desc">Uso de funções e operações matemáticas.</div>
-        <pre id="calc">
-def somar(a, b):
-    return a + b
+        <div id="calc" class="code-section">
+            <div class="desc">Definição de funções e retorno de valores.</div>
+            <pre><code class="language-python">def calcular_bonus(salario):
+    return salario * 0.10
 
-num1 = 10
-num2 = 5
-resultado = somar(num1, num2)
-print(f"A soma de {num1} e {num2} é: {resultado}")
-        </pre>
+meu_salario = 3000
+print(f"Seu bônus é de: R$ {calcular_bonus(meu_salario)}")</code></pre>
+        </div>
 
-        <div id="lista-desc" class="desc">Como iterar sobre coleções de dados.</div>
-        <pre id="lista">
-frutas = ["maçã", "banana", "cereja"]
-frutas.append("dragão")
+        <div id="lista" class="code-section">
+            <div class="desc">Manipulação de arrays/listas.</div>
+            <pre><code class="language-python">techs = ["Python", "HTML", "JavaScript"]
+techs.append("SQL")
 
-for fruta in frutas:
-    print(f"Eu gosto de comer {fruta}")
-        </pre>
+for item in techs:
+    print(f"Estudar: {item}")</code></pre>
+        </div>
 
-        <div id="api-desc" class="desc">Simulação de uma chamada de API (usando a lib requests).</div>
-        <pre id="api">
-import requests
+        <div id="loops" class="code-section">
+            <div class="desc">Controle de repetição.</div>
+            <pre><code class="language-python"># Loop com range
+for i in range(5):
+    print(f"Linha {i+1}")
 
-# Exemplo conceitual (precisa instalar: pip install requests)
-response = requests.get('https://api.github.com/users/github')
-data = response.json()
-print(f"Nome da conta: {data['name']}")
-        </pre>
+# Loop condicional
+x = 0
+while x < 3:
+    print("Ainda processando...")
+    x += 1</code></pre>
+        </div>
 
-<div id="loops-desc" class="desc">Como repetir tarefas até que uma condição seja atendida.</div>
-<pre id="loops">
-# Contagem regressiva com while
-contador = 5
-while contador > 0:
-    print(f"Lançamento em {contador}...")
-    contador -= 1
-print("Fogo! 🚀")
-
-# Usando range no for
-for i in range(1, 4):
-    print(f"Tentativa número {i}")
-</pre>
-
-<div id="erros-desc" class="desc">Evitando que o programa pare de funcionar por erros do usuário.</div>
-<pre id="erros">
-try:
-    numero = int(input("Digite um número para dividir 100: "))
-    resultado = 100 / numero
-    print(f"Resultado: {resultado}")
-except ValueError:
-    print("Erro: Por favor, digite um número inteiro válido.")
+        <div id="erros" class="code-section">
+            <div class="desc">Bloco Try/Except para evitar crash.</div>
+            <pre><code class="language-python">try:
+    divisao = 10 / 0
 except ZeroDivisionError:
-    print("Erro: Não é possível dividir por zero!")
-</pre>
+    print("Ops! Não pode dividir por zero.")</code></pre>
+        </div>
 
-<div id="dict-desc" class="desc">Armazenando dados em pares de Chave e Valor.</div>
-<pre id="dict">
-estudante = {
-    "nome": "Seu Nome",
-    "curso": "Python",
-    "progresso": 85
+        <div id="dict" class="code-section">
+            <div class="desc">Trabalhando com objetos (Chave/Valor).</div>
+            <pre><code class="language-python">projeto = {
+    "nome": "Meu Dashboard",
+    "status": "Online",
+    "tags": ["Vercel", "Python", "GitHub"]
 }
-
-print(f"O aluno {estudante['nome']} está no curso de {estudante['curso']}.")
-
-# Adicionando nova chave
-estudante["status"] = "Ativo"
-print(estudante)
-</pre>
-
-        
+print(projeto["nome"])</code></pre>
+        </div>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
 <script>
-    function showCode(id) {
-        // Esconde todos os códigos e descrições
-        document.querySelectorAll('pre').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.desc').forEach(el => el.style.display = 'none');
+    function showCode(id, btn) {
+        // Esconde todas as seções
+        document.querySelectorAll('.code-section').forEach(el => el.classList.remove('active'));
+        // Remove a classe ativa de todos os botões
+        document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active-btn'));
         
-        // Mostra o selecionado
+        // Mostra a selecionada e marca o botão
         document.getElementById(id).classList.add('active');
-        document.getElementById(id + '-desc').style.display = 'block';
+        btn.classList.add('active-btn');
     }
+    
+    // Inicia com o primeiro exemplo visível
+    document.querySelector('.menu button').click();
 </script>
 
 </body>
