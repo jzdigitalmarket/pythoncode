@@ -152,6 +152,25 @@ print(projeto["nome"])</code></pre>
     
     // Inicia com o primeiro exemplo visível
     document.querySelector('.menu button').click();
+
+function copyText(btn) {
+    // Busca o código dentro do bloco 'pre' próximo ao botão
+    const code = btn.parentElement.querySelector('code').innerText;
+    
+    navigator.clipboard.writeText(code).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = "Copiado! ✅";
+        btn.style.background = "#4caf50";
+        
+        // Volta ao normal depois de 2 segundos
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "";
+        }, 2000);
+    });
+}
+
+    
 </script>
 
 </body>
