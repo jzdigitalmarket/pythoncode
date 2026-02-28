@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Study Hub 🐍</title>
+    <title>Python Study Hub ⚛️</title>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     
@@ -16,17 +16,22 @@
             --text-main: #263238;
             --note-bg: #fff9c4;
             --note-border: #fbc02d;
+            
+            /* Novas cores para os átomos (Sci-Fi) */
+            --atom-nucleus: #ffd43b; /* Amarelo Python para o núcleo */
+            --atom-electron: #3776ab; /* Azul Python para elétrons */
+            --atom-orbit: rgba(55, 118, 171, 0.2); /* Órbita sutil */
         }
 
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; /* Removi o padding do body para não bugar o canvas */
+            margin: 0; 
             color: var(--text-main); 
             line-height: 1.6; 
             overflow-x: hidden;
         }
 
-        /* AJUSTE NO CANVAS */
+        /* FUNDO DE ÁTOMOS */
         #scifi-bg {
             position: fixed;
             top: 0;
@@ -40,12 +45,12 @@
 
         .container { 
             max-width: 900px; 
-            margin: 40px auto; /* Adicionei margem em cima e embaixo */
-            background: rgba(255, 255, 255, 0.92); /* Mais transparente */
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.92);
             padding: 30px; 
             border-radius: 15px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            backdrop-filter: blur(8px); /* Efeito de vidro mais forte */
+            backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.3);
         }
         
@@ -93,7 +98,7 @@
     <canvas id="scifi-bg"></canvas>
 
     <div class="container">
-        <h1>Python Study Hub 🐍</h1>
+        <h1>Python Study Hub ⚛️</h1>
         <p class="subtitle">Meu repositório central de exemplos e sintaxe Python</p>
 
         <div class="menu" id="mainMenu">
@@ -138,29 +143,70 @@ print(f"Seu bônus é de: R$ {bonus}")</code></pre>
     <script>
         const canvas = document.getElementById('scifi-bg');
         const ctx = canvas.getContext('2d');
-        let width, height, particles;
+        let width, height, atoms;
 
-        const particleCount = 70;
-        const connectionDistance = 140;
-        const particleColor = 'rgba(55, 118, 171, 2.9)';
+        // Configuração dos Átomos
+        const atomCount = 20; // Menos átomos para melhor visual (e performance)
+        const connectionDistance = 150; // Distância para "reação química" (linhas sutis)
 
-        class Particle {
+        // Pegar cores do CSS
+        const style = getComputedStyle(document.documentElement);
+        const nucleusColor = style.getPropertyValue('--atom-nucleus').trim();
+        const electronColor = style.getPropertyValue('--atom-electron').trim();
+        const orbitColor = style.getPropertyValue('--atom-orbit').trim();
+
+        class Atom {
             constructor() {
                 this.x = Math.random() * window.innerWidth;
                 this.y = Math.random() * window.innerHeight;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 2 + 1;
+                this.vx = (Math.random() - 0.5) * 0.3; // Movimento suave
+                this.vy = (Math.random() - 0.5) * 0.3;
+                
+                // Propriedades Atômicas
+                this.nucleusSize = Math.random() * 3 + 2; 
+                this.electronSize = Math.random() * 1.5 + 1;
+                this.orbitRadiusX = Math.random() * 20 + 15;
+                this.orbitRadiusY = Math.random() * 10 + 5;
+                this.orbitAngle = Math.random() * Math.PI; // Inclinação da órbita
+                this.electronAngle = Math.random() * Math.PI * 2; // Posição do elétron
+                this.electronSpeed = (Math.random() * 0.05 + 0.02) * (Math.random() > 0.5 ? 1 : -1); // Velocidade de órbita
             }
+            
             update() {
+                // Movimento do átomo (deriva)
                 this.x += this.vx; this.y += this.vy;
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
+                
+                // Movimento do elétron (órbita)
+                this.electronAngle += this.electronSpeed;
             }
+            
             draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.orbitAngle); // Inclinar a órbita
+
+                // 1. Desenhar Órbita (Elipse)
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = particleColor;
+                ctx.ellipse(0, 0, this.orbitRadiusX, this.orbitRadiusY, 0, 0, Math.PI * 2);
+                ctx.strokeStyle = orbitColor;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+
+                // 2. Desenhar Elétron (na órbita)
+                const ex = this.orbitRadiusX * Math.cos(this.electronAngle);
+                const ey = this.orbitRadiusY * Math.sin(this.electronAngle);
+                ctx.beginPath();
+                ctx.arc(ex, ey, this.electronSize, 0, Math.PI * 2);
+                ctx.fillStyle = electronColor;
+                ctx.fill();
+
+                // 3. Desenhar Núcleo (no centro)
+                ctx.restore(); // Voltar para as coordenadas originais do átomo
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.nucleusSize, 0, Math.PI * 2);
+                ctx.fillStyle = nucleusColor;
                 ctx.fill();
             }
         }
@@ -168,27 +214,32 @@ print(f"Seu bônus é de: R$ {bonus}")</code></pre>
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            particles = [];
-            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+            atoms = [];
+            for (let i = 0; i < atomCount; i++) atoms.push(new Atom());
         }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+            
+            // Atualizar e desenhar átomos
+            atoms.forEach(atom => {
+                atom.update();
+                atom.draw();
             });
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
+            
+            // Desenhar conexões sutis entre átomos próximos ("reação")
+            for (let i = 0; i < atoms.length; i++) {
+                for (let j = i + 1; j < atoms.length; j++) {
+                    const dx = atoms[i].x - atoms[j].x;
+                    const dy = atoms[i].y - atoms[j].y;
                     const dist = Math.sqrt(dx*dx + dy*dy);
+                    
                     if (dist < connectionDistance) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(55, 118, 171, ${1 - dist/connectionDistance})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(55, 118, 171, ${1 - dist/connectionDistance * 0.8})`; // Opacidade baseada na distância
+                        ctx.lineWidth = 0.3;
+                        ctx.moveTo(atoms[i].x, atoms[i].y);
+                        ctx.lineTo(atoms[j].x, atoms[j].y);
                         ctx.stroke();
                     }
                 }
