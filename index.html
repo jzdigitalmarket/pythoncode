@@ -107,6 +107,9 @@
             <button onclick="showCode('pass', this)">🔐 Senhas</button>
             <button onclick="showCode('date', this)">📅 Datas</button>
             <button onclick="showCode('cond', this)">⚖️ Condicionais</button>
+            <button onclick="showCode('poo', this)">🏗️ Objetos (POO)</button>
+            <button onclick="showCode('pandas', this)">📊 Dados (Pandas)</button>
+            <button onclick="showCode('api', this)">🌐 APIs (FastAPI)</button> 
         </div>
 
         <div id="content">
@@ -132,6 +135,64 @@ bonus = calcular_bonus(meu_salario)
 print(f"Seu bônus é de: R$ {bonus}")</code></pre>
                 </div>
             </div>
+
+            <div id="poo" class="code-section">
+    <div class="desc">Classes, Atributos e Métodos.</div>
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+        <pre><code class="language-python">class Robo:
+    def __init__(self, nome):
+        self.nome = nome
+        self.bateria = 100
+
+    def saudar(self):
+        print(f"Olá! Sou o {self.nome} e tenho {self.bateria}% de carga.")
+
+meu_robo = Robo("Python-Bot")
+meu_robo.saudar()</code></pre>
+    </div>
+    <div class="footer-note">
+        <strong>💡 Dica:</strong> O <code>__init__</code> é o construtor, usado para inicializar as características do objeto quando ele é criado.
+    </div>
+</div>
+            <div id="pandas" class="code-section">
+    <div class="desc">Criando e visualizando tabelas (DataFrames).</div>
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+        <pre><code class="language-python">import pandas as pd
+
+dados = {
+    'Nome': ['Ana', 'Bruno', 'Carla'],
+    'Idade': [23, 35, 29]
+}
+
+df = pd.DataFrame(dados)
+print(df.head()) # Mostra as primeiras linhas
+print(f"Média de idade: {df['Idade'].mean()}")</code></pre>
+    </div>
+    <div class="footer-note">
+        <strong>💡 Dica:</strong> O Pandas transforma dados brutos em tabelas poderosas para análise estatística e automação.
+    </div>
+</div>
+            <div id="api" class="code-section">
+    <div class="desc">Criando um endpoint de API moderno.</div>
+    <div class="code-container">
+        <button class="copy-btn" onclick="copyText(this)">Copiar</button>
+        <pre><code class="language-python">from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"mensagem": "API Python rodando com sucesso!"}
+
+# Para rodar: uvicorn nome_do_arquivo:app --reload</code></pre>
+    </div>
+    <div class="footer-note">
+        <strong>💡 Dica:</strong> FastAPI é um dos frameworks mais rápidos do mundo para construir back-ends escaláveis.
+    </div>
+</div>
+            
             </div>
     </div>
 
